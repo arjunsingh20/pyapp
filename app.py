@@ -28,7 +28,7 @@ def hello():
     # subprocess.check_output("C:/cygwin/bin/bash.exe ./
     # os.chdir("C:/Python27/Scripts/pyapp/images/")
     # pytesseract.pytesseract.tesseract_cmd = "C:/Program Files (x86)/Tesseract-OCR/tesseract.exe"
-    src_path = "/code/pyapp/images/"
+    src_path = "/code/images/"
     # for i in range(5,12,8):
     os.system("bash -c \"./textcleaner -g -e none -f  12 -o 5 ./images/bill5.png ./images/out.jpg\"")
     img_path = src_path + "out.jpg"
