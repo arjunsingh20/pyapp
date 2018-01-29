@@ -1,0 +1,7 @@
+flask
+redis
+numpy
+pillow
+pytesseract
+opencv-python
+unidecode
