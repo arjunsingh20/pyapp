@@ -2,7 +2,6 @@ flask
 redis
 numpy
 pillow
-tesseract-ocr
 pytesseract
 opencv-python
 unidecode
