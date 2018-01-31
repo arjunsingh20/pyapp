@@ -6,7 +6,7 @@ from PIL import Image
 import os
 from unidecode import unidecode
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -22,16 +22,21 @@ def hello_world():
 # def index():
 #     return 'Hello World!'
 
-@app.route('/ocr', methods=['GET'])
+@app.route('/ocr', methods=['POST'])
 def hello():
     # print tesserocr.tesseract_version()
     # subprocess.check_output("C:/cygwin/bin/bash.exe ./
     # os.chdir("C:/Python27/Scripts/pyapp/images/")
     # pytesseract.pytesseract.tesseract_cmd = "C:/Program Files (x86)/Tesseract-OCR/tesseract.exe"
     src_path = "/code/images/"
+    file = request.json['bill']
+    print file
+    name = re.findall(r'[A-Za-z0-9]+\.[A-Za-z]+', file)[0]
+    name = name[0: name.find('.')]
+    name_out = name + "out.png"
     # for i in range(5,12,8):
-    os.system("bash -c \"./textcleaner -g -e none -f  12 -o 5 ./images/bill5.png ./images/out.jpg\"")
-    img_path = src_path + "out.jpg"
+    os.system("bash -c \"./textcleaner -g -e none -f  12 -o 5 " + file + " ./images/" + name_out + "\"")
+    img_path = src_path + name_out
     # Read image with opencv
     img = cv2.imread(img_path)
     # Convert to gray
@@ -50,16 +55,16 @@ def hello():
     # cv2.imshow("Scanned", imutils.resize(warped, height=650))
     # cv2.waitKey(0)
     # Write image after removed noise
-    cv2.imwrite(src_path + "removed_noise.png", warped)
+    cv2.imwrite(src_path + name + "_removed_noise.png", warped)
 
     #  Apply threshold to get image with only black and white
     # img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 31, 2)
 
     # Write the image after apply opencv to do some ...
-    cv2.imwrite(src_path + "thres.png", warped)
+    cv2.imwrite(src_path + name + "_thres.png", warped)
 
     # Recognize text with tesseract for python
-    result = pytesseract.image_to_string(Image.open(src_path + "thres.png"))
+    result = pytesseract.image_to_string(Image.open(src_path + name + "_thres.png"))
 
     # Remove template file
     # os.remove(temp)
