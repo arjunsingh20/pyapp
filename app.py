@@ -30,10 +30,9 @@ def hello():
     # pytesseract.pytesseract.tesseract_cmd = "C:/Program Files (x86)/Tesseract-OCR/tesseract.exe"
     src_path = "/code/images/"
     file = request.json['bill']
-    print file
     name = re.findall(r'[A-Za-z0-9]+\.[A-Za-z]+', file)[0]
     name = name[0: name.find('.')]
-    name_out = name + "out.png"
+    name_out = name + "_out.png"
     # for i in range(5,12,8):
     os.system("bash -c \"./textcleaner -g -e none -f  12 -o 5 " + file + " ./images/" + name_out + "\"")
     img_path = src_path + name_out
